@@ -1,0 +1,47 @@
+{% extends 'movies/base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'styles/slider.css'%}">
+</head>
+<body>
+    <section class="movie-slider">
+        {% if trending_movie_dice == 1 %}
+            <h2 class="slider-type">Trending Today</h2>
+        {% else %}
+            <h2 class="slider-type">Trending this Week</h2>
+        {% endif %}
+        <button class="pre-btn"><img src="{% static 'icons/back.png'%}"></button>
+        <button class="nxt-btn"><img src="{% static 'icons/next.png'%}"></button>
+        <div class="movie-slider-container">
+            {% if movies %}
+                {% for movie in movies %}
+            <div class="movie-card">
+                <div class="movie-image">
+                    {% if movie.vote_average == 0 %}
+                    <span class="rating-tag">N/A</span>
+                    {% else %}
+                    <span class="rating-tag">{{movie.vote_average | floatformat:1 }}</span>
+                    {% endif %}
+                    <img src="{{movie.poster_url}}" class="movie-poster" alt="{{movie.title}}">
+                    <button class="wishlist-add-btn">Add to Wishlist</button>
+                </div>
+                <div class="movie-info">
+                    <h2 class="movie-name">{{movie.title}}</h2>
+                    <span class="movie-genre">{{ movie.genres |slice:2 |join:", " }}</span>
+                    <span class="movie-year">{{movie.formatted_release_date}}</span>
+                </div>
+            </div>
+                {% endfor %} 
+            {% else %}
+            <p>No results found.</p>
+            {% endif%}
+        </div>
+    </section>
+    <script src="{% static 'scripts/slider.js'%}"></script>
+</body>
+{% endblock %}
+    
+
+    
