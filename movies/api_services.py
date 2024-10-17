@@ -11,6 +11,7 @@ class TMDBClient:
             'api_key': settings.TMDB_API_KEY,
             'page': 1
         }
+
         response = requests.get(url, params=params)
         if response.status_code == 200:
             return response.json().get('results', [])
@@ -23,6 +24,7 @@ class TMDBClient:
             'api_key': settings.TMDB_API_KEY,
             'page': 1
         }
+        
         response = requests.get(url, params=params)
         if response.status_code == 200:
             return response.json().get('results', [])

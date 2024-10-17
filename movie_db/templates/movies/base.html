@@ -34,6 +34,11 @@
             </div>
         </div>
     </header>
+    {% if messages %}
+    {% for message in messages %}
+        <h2 class="register-message">Welcome, {{message}}!</h2>
+    {% endfor %}
+    {% endif %}
     {% block content %}
     {% endblock %}
 </body>
