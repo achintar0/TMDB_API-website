@@ -13,12 +13,23 @@ import requests
 class MoviesLogin(LoginView):
     template_name = 'accounts/login.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
+    
 class MoviesLogout(View):
     template_name = 'movies/home.html'
 
     def get(self, request):
         logout(request)
         return redirect('home')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
+    
 
 class SignUpView(CreateView):
     template_name = "accounts/register.html" 
@@ -36,6 +47,12 @@ class SignUpView(CreateView):
         login(self.request, new_user)
 
         return redirect(self.success_url)
+    
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
 
 
     
